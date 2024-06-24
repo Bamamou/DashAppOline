@@ -36,4 +36,4 @@ app.layout = html.Div(style= {'backgroundColor':'#121212', 'textAlign': 'center'
 
 # let's run the app
 if __name__ == '__main__':
-    app.run_server(debug=False)
+    app.run(debug=True)
