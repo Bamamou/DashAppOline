@@ -19,21 +19,30 @@ for col in df.columns:
     Temperatures = Data.iloc[:, 63:68].astype(float)
 Pack_Volatge =(Data.iloc[:, 29].astype('float64'))/10.0
 data_position = [19, 69,62]
-
-# fig =px.line( y=Pack_Volatge)
+Data.rename(columns = {29:'Pack Voltage', 9:'boardTemperature', 10:'boardSupplyVoltage', 11:'odometerKm', 12:'tripKm', 13:'speedKmh',
+                       14:'maximumSpeed', 15:'rpm', 16: 'efficiency', 17:'vehicleStatuByte1', 18:'vehicleStatuByte2'}, inplace = True)
+fig =px.line( y=Data['Pack Voltage'], 
+              title="Pack Voltage", 
+              labels={
+                     "x": "Time (S)",
+                     "y": "Voltage (V)"
+                 },)
 
 # #Now let's set the layout colors of our app
-# fig.update_layout(
-#     plot_bgcolor ='#121212',    # The bg of the plot
-#     paper_bgcolor = '#121212',  # The bg of the paper 
-#     font_color = '#1876AE'      # The text on the plot (Inside the plot only)
-# )
+fig.update_layout(
+    plot_bgcolor ='#121212',    # The bg of the plot
+    paper_bgcolor = '#121212',  # The bg of the paper 
+    font_color = '#1876AE',      # The text on the plot (Inside the plot only)   
+)
+
+fig.update_xaxes(showgrid=False)
+fig.update_yaxes(showgrid=False)
 # Now let's work on the layout itself
 app.layout = html.Div(style= {'backgroundColor':'#121212', 'textAlign': 'center'}, children= [html.H1('Hello Evoke'),
              html.Div(style= {'textAlign': 'center','backgroundColor': '#121212'}, children = 'This is a simple example of plotting the voltage of the vehicle'),
              html.Div(id='slider-output', style={'fontSize': 60}),
              dcc.Slider(1, 100, 1, value=5, id='slider'),
-             dcc.Graph(id="voltage")])
+             dcc.Graph(figure=fig)])
 
 @app.callback(
     Output(component_id='slider-output', component_property='children'),
