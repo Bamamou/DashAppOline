@@ -6,8 +6,8 @@ import pandas as pd
 
 app = Dash(__name__)
 server = app.server
-#df = pd.read_csv('https://gist.githubusercontent.com/chriddyp/5d1ea79569ed194d432e56108a04d188/raw/a9f9e8076b837d541398e999dcbac2b2826a81f8/gdp-life-exp-2007.csv')
 df = pd.read_csv('file:///C:/Users/Shahidul%20Saad/Desktop/m1.5.txt')
+#df = pd.read_csv(True'Balistron1.txt')
 # Iterate through each column
 for col in df.columns:
     Data =df[col].str.split(';', expand=True)
@@ -40,4 +40,3 @@ def updata_figure(number):
 # let's run the app
 if __name__ == '__main__':
     app.run_server(debug=True)
-
