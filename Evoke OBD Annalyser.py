@@ -65,9 +65,17 @@ def upload_file(contents, filename):
         df[29] =df[29].div(10)   # BMS pack voltgae 
         df[81] =df[81].div(10)   #MCU pack voltage
         df[10] =df[10].div(10)   #ECU supply voltage
-        df.rename(columns = {29:'Pack Voltage', 9:'boardTemperature', 10:'boardSupplyVoltage', 11:'odometerKm', 12:'tripKm', 13:'speedKmh',
+        df.rename(columns = {1:'packetCode', 2:'second', 3:'minute', 4: 'hour', 5:'dayW', 6:'dayM',  7:'month',  8:'year', 9:'boardTemperature', 10:'boardSupplyVoltage',
+                       11:'odometerKm', 12:'tripKm', 13:'speedKmh',  14:'maximumSpeed', 15:'rpm', 16:'efficiency', 17:'vehicleStatuByte1', 18:'vehicleStatuByte2',
+                       19:'numActiveErrors', 20:'sumActiveErrors', 21:'roll', 22:'pitch', 23:'frontTirePressure', 24:'frontTireTemperature', 25:'rearTirePressure', 26:'rearTireTemperature', 27:'inputsI2C',
+                       28:'outputsI2C', 29:'Pack Voltage', 9:'boardTemperature', 10:'boardSupplyVoltage', 11:'odometerKm', 12:'tripKm', 13:'speedKmh',
                        14:'maximumSpeed',  16: 'efficiency', 17:'vehicleStatuByte1', 18:'vehicleStatuByte2', 69:'SOC', 62:'Pack_DSG_Current',
                        85:'Invt_Temp', 83:'RPM', 81:'MCU_Voltage', 84:'Motor_Temp'}, inplace = True)
+
+
+        # df.rename(columns = {29:'Pack Voltage', 9:'boardTemperature', 10:'boardSupplyVoltage', 11:'odometerKm', 12:'tripKm', 13:'speedKmh',
+        #                14:'maximumSpeed',  16: 'efficiency', 17:'vehicleStatuByte1', 18:'vehicleStatuByte2', 69:'SOC', 62:'Pack_DSG_Current',
+        #                85:'Invt_Temp', 83:'RPM', 81:'MCU_Voltage', 84:'Motor_Temp'}, inplace = True)
 
         # Create dropdown options from column names
         column_options = [{"label": col, "value": col} for col in df.columns]
@@ -106,9 +114,17 @@ def plot_selected_columns(selected_columns, contents):
         df[81] =df[81].div(10)   #MCU pack voltage
         df[10] =df[10].div(10)   #ECU supply voltage
         #Rename some columns
-        df.rename(columns = {29:'Pack Voltage', 9:'boardTemperature', 10:'boardSupplyVoltage', 11:'odometerKm', 12:'tripKm', 13:'speedKmh',
+        df.rename(columns = {1:'packetCode', 2:'second', 3:'minute', 4: 'hour', 5:'dayW', 6:'dayM',  7:'month',  8:'year', 9:'boardTemperature', 10:'boardSupplyVoltage',
+                       11:'odometerKm', 12:'tripKm', 13:'speedKmh',  14:'maximumSpeed', 15:'rpm', 16:'efficiency', 17:'vehicleStatuByte1', 18:'vehicleStatuByte2',
+                       19:'numActiveErrors', 20:'sumActiveErrors', 21:'roll', 22:'pitch', 23:'frontTirePressure', 24:'frontTireTemperature', 25:'rearTirePressure', 26:'rearTireTemperature', 27:'inputsI2C',
+                       28:'outputsI2C', 29:'Pack Voltage', 9:'boardTemperature', 10:'boardSupplyVoltage', 11:'odometerKm', 12:'tripKm', 13:'speedKmh',
                        14:'maximumSpeed',  16: 'efficiency', 17:'vehicleStatuByte1', 18:'vehicleStatuByte2', 69:'SOC', 62:'Pack_DSG_Current',
                        85:'Invt_Temp', 83:'RPM', 81:'MCU_Voltage', 84:'Motor_Temp'}, inplace = True)
+
+
+        # df.rename(columns = {29:'Pack Voltage', 9:'boardTemperature', 10:'boardSupplyVoltage', 11:'odometerKm', 12:'tripKm', 13:'speedKmh',
+        #                14:'maximumSpeed',  16: 'efficiency', 17:'vehicleStatuByte1', 18:'vehicleStatuByte2', 69:'SOC', 62:'Pack_DSG_Current',
+        #                85:'Invt_Temp', 83:'RPM', 81:'MCU_Voltage', 84:'Motor_Temp'}, inplace = True)
 
         # Plot the selected columns
         fig = px.line(df, x=df.index, y=selected_columns, title="Plot of Selected Data")
