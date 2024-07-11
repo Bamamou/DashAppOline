@@ -19,13 +19,17 @@ colors = {
 
 # Define the app layout
 app.layout = html.Div([
-    html.H1("Evoke Motorcycles OBD vizualizer", style={'textAlign': 'center', 'color': colors["text"]}),
-    html.Div(children='This web based App helps backend engineers troubleshoot errors and analyse vehicle performase based on OBD data.', style={'textAlign': 'center',  'color': colors['text']}),
+    html.H1("Evoke Motorcycles OBD vizualizer", style={'textAlign': 'center', 'color': colors["text"]}, className="bg-primary text-white text-center p-3 h3 mb-2 "),
+    html.Div(children='This web based App helps backend engineers troubleshoot errors and analyse vehicle performance based on OBD data.', style={'textAlign': 'center',  'color': colors['text']}),
     dcc.Upload(
         id="upload-data",
         children=dbc.Button([html.I(className="fa-solid fa-cloud-arrow-down me-2"), "Upload"], color = "primary", className ="me-2"),
         multiple=False
     ),
+    dcc.Checklist(
+            options=[" Urban", " M1.5"],
+            id="toppings"), 
+   
     html.Div(id="output-data-upload"),
     dcc.Dropdown(id="column-dropdown", multi=True),  # Allow multiple selections
     dcc.Graph(id="plot")
