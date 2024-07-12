@@ -147,4 +147,4 @@ def plot_selected_columns(selected_columns, contents):
 
 # Run the app
 if __name__ == "__main__":
-    app.run_server(debug=True, port=8888)
+    app.run_server(debug=True)
