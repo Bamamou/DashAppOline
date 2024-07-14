@@ -8,7 +8,7 @@ import plotly.express as px
 import dash_bootstrap_components as dbc
 
 # Initialize the Dash app
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME, dbc.icons.BOOTSTRAP])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG, dbc.icons.FONT_AWESOME, dbc.icons.BOOTSTRAP])
 app.title ="EvokeOBD"
 
 colors = {
@@ -19,8 +19,8 @@ colors = {
 
 # Define the app layout
 app.layout = html.Div([
-    html.H1("Evoke Motorcycles OBD vizualizer", style={'textAlign': 'center', 'color': colors["text"]}, className="bg-primary text-white text-center p-3 h3 mb-2 "),
-    html.Div(children='This web based App helps backend engineers troubleshoot errors and analyse vehicle performance based on OBD data.', style={'textAlign': 'center',  'color': colors['text']}),
+    html.H1("Evoke Motorcycles OBD vizualizer", style={'textAlign': 'center','font-weight': 'bold', 'color': colors["text"], "font-family":'Courier New'}, className="bg-primary text-white text-center p-3 h3 mb-2 "),
+    html.Div(children='This web based App helps backend engineers troubleshoot errors and analyse vehicle performance based on OBD data.', style={'textAlign': 'center',  'color': colors['text'], "font-family":'Courier New', "font-size": "18px"}),
     dcc.Upload(
         id="upload-data",
         children=dbc.Button([html.I(className="fa-solid fa-cloud-arrow-down me-2"), "Upload"], color = "primary", className ="me-2"),
@@ -31,7 +31,7 @@ app.layout = html.Div([
             id="toppings"), 
    
     html.Div(id="output-data-upload"),
-    dcc.Dropdown(id="column-dropdown", multi=True),  # Allow multiple selections
+    dcc.Dropdown(id="column-dropdown", style={"width": "50%", "margin": "10px auto"," font-size": "16px"}, multi=True,searchable=True),  # Allow multiple selections
     dcc.Graph(id="plot")
 ])
 
