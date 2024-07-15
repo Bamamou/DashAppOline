@@ -8,7 +8,7 @@ import plotly.express as px
 import dash_bootstrap_components as dbc
 
 # Initialize the Dash app
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG, dbc.icons.FONT_AWESOME, dbc.icons.BOOTSTRAP])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME, dbc.icons.BOOTSTRAP])
 app.title ="EvokeOBD"
 
 colors = {
@@ -19,20 +19,20 @@ colors = {
 
 # Define the app layout
 app.layout = html.Div([
-    html.H1("Evoke Motorcycles OBD vizualizer", style={'textAlign': 'center','font-weight': 'bold', 'color': colors["text"], "font-family":'Courier New'}, className="bg-primary text-white text-center p-3 h3 mb-2 "),
-    html.Div(children='This web based App helps backend engineers troubleshoot errors and analyse vehicle performance based on OBD data.', style={'textAlign': 'center',  'color': colors['text'], "font-family":'Courier New', "font-size": "18px"}),
+    html.H1("Evoke Motorcycles OBD vizualizer", style={'textAlign': 'center', 'color': colors["text"]}),
+    html.Div(children='This web based App helps backend engineers troubleshoot errors and analyse vehicle performase based on OBD data.', style={'textAlign': 'center',  'color': colors['text']}),
     dcc.Upload(
         id="upload-data",
-        children=dbc.Button([html.I(className="fa-solid fa-cloud-arrow-down me-2"), "Upload"], color = "primary", className ="me-2"),
+        children=dbc.Button([html.I(className="fas fa-file-upload me-2"), "Upload"], color = "primary", className ="me-2"),
         multiple=False
     ),
-    dcc.Checklist(
-            options=[" Urban", " M1.5"],
-            id="toppings"), 
-   
     html.Div(id="output-data-upload"),
-    dcc.Dropdown(id="column-dropdown", style={"width": "50%", "margin": "10px auto"," font-size": "16px"}, multi=True,searchable=True),  # Allow multiple selections
-    dcc.Graph(id="plot")
+    dcc.Dropdown(id="column-dropdown", multi=True),  # Allow multiple selections
+    dcc.Graph(id="plot"),
+
+    html.Div(id="output-data-upload2"),
+    dcc.Dropdown(id="column-dropdown2", multi=True),  # for second dropdown
+    dcc.Graph(id="plot2")
 ])
 
 # Define callback to handle file upload
@@ -40,8 +40,17 @@ app.layout = html.Div([
     [Output("output-data-upload", "children"),
      Output("column-dropdown", "options")],
     [Input("upload-data", "contents")],
-    [State("upload-data", "filename")]
+    [State("upload-data", "filename")],
 )
+
+@app.callback(
+    [Output("output-data-upload2", "children"),
+    Output('column-dropdown2', 'options'),],    # FOr second dropdown
+    Input('upload-data', 'contents'),
+    [State("upload-data", "filename")],
+    prevent_initial_call=True
+)
+
 def upload_file(contents, filename):
     if contents is None:
         return "Please upload a file.", []
@@ -82,6 +91,9 @@ def upload_file(contents, filename):
         #                14:'maximumSpeed',  16: 'efficiency', 17:'vehicleStatuByte1', 18:'vehicleStatuByte2', 69:'SOC', 62:'Pack_DSG_Current',
         #                85:'Invt_Temp', 83:'RPM', 81:'MCU_Voltage', 84:'Motor_Temp'}, inplace = True)
 
+        
+
+
         # Create dropdown options from column names
         column_options = [{"label": col, "value": col} for col in df.columns]
 
@@ -93,6 +105,13 @@ def upload_file(contents, filename):
     [Input("column-dropdown", "value")],
     [State("upload-data", "contents")]
 )
+
+@app.callback(
+    Output("plot2", "figure"),
+    [Input("column-dropdown2", "value")],   # for Second dropwodn 
+    [State("upload-data", "contents")]
+)
+
 def plot_selected_columns(selected_columns, contents):
     if selected_columns and contents:
         # Read the uploaded file
@@ -132,6 +151,7 @@ def plot_selected_columns(selected_columns, contents):
         #                14:'maximumSpeed',  16: 'efficiency', 17:'vehicleStatuByte1', 18:'vehicleStatuByte2', 69:'SOC', 62:'Pack_DSG_Current',
         #                85:'Invt_Temp', 83:'RPM', 81:'MCU_Voltage', 84:'Motor_Temp'}, inplace = True)
 
+        
         # Plot the selected columns
         fig = px.line(df, x=df.index, y=selected_columns, title="Plot of Selected Data")
         # Let's give some color to our plot
@@ -147,4 +167,4 @@ def plot_selected_columns(selected_columns, contents):
 
 # Run the app
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=True, port=8888)
