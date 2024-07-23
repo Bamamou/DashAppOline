@@ -91,10 +91,10 @@ def update_uploaded_file(contents, filename):
 
     if block0_index is not None:
             # Create a new DataFrame with data after 'block0'
-        filtered_df = df.iloc[block0_index + 1:]
+        df = df.iloc[block0_index + 1:]
 
 
-    for col in filtered_df.columns:
+    for col in df.columns:
             df =df[col].str.split(';', expand=True)
     # keep only the colunm from 1 to 30
     df = df.iloc[:, 1:31] 
@@ -146,14 +146,14 @@ def update_plot(selected_column, contents, font_color, title_color):
                 break
         if block0_index is not None:
             break
-
+    
     if block0_index is not None:
             # Create a new DataFrame with data after 'block0'
-        filtered_df = df.iloc[block0_index + 1:]
+        df = df.iloc[block0_index + 1:]
 
 
 
-    for col in filtered_df.columns:
+    for col in df.columns:
             df =df[col].str.split(';', expand=True)
     # keep only the colunm from 1 to 30
     df = df.iloc[:, 1:31] 
